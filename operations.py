@@ -9,9 +9,8 @@ def form_todo_list(todo_list):
     for todo in todo_list:
         if todo[-1] < 2:
             id = str(todo[0]).zfill(size)
-            result += f'*{id}* _{fields[0]}:_ *{todo[1]}*\n' \
-                      f'_{fields[1]}:_ *{todo[2]}*\n' \
-                      f'_{fields[2]}:_ *{todo_status[int(todo[3])]}*\n'
+            result += f'{todo_status[int(todo[3])]} *{id}* _{fields[0]}:_ *{todo[1]}*\n' \
+                      f'_{fields[1]}:_ *{todo[2]}*\n'
             if todo[3] == 0:
                 result += f'_Завершить /done{id}_\n'
             if todo[3] == 1:

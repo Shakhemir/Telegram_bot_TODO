@@ -41,14 +41,14 @@ def add_todo(chat_id, args):
         if len(last_command) > 1:
             BotDB.add_deadline(chat_id, args, last_command[1])
             BotDB.update_command(chat_id, '')
-            message = 'OK!'
+            message = config.text_OK
         else:
             id = BotDB.add_task(chat_id, args)
             BotDB.update_command(chat_id, f'add {id}')
-            message = 'Какой крайний срок?'
+            message = config.text_whats_deadline
     else:
         BotDB.update_command(chat_id, 'add')
-        message = 'Введите задачу'
+        message = config.text_enter_task
     return message
 
 
@@ -59,17 +59,17 @@ def edit_todo(chat_id, args):
             id = last_command[1]
             BotDB.change_task(chat_id, args, id)
             BotDB.update_command(chat_id, f'add {id}')
-            message = 'Какой крайний срок?'
+            message = config.text_whats_deadline
         else:
             if args.isdigit():
                 BotDB.update_command(chat_id, f'edit {args}')
-                message = 'Введите задачу'
+                message = config.text_enter_task
             else:
                 BotDB.update_command(chat_id, '')
-                message = 'Вы ввели неправильный ID!'
+                message = config.text_wrong_id
     else:
         BotDB.update_command(chat_id, 'edit')
-        message = 'Введите ID задачи для изменения'
+        message = config.text_enter_4_edit
     return message
 
 
@@ -77,13 +77,13 @@ def change_status(chat_id, args):
     if args:
         if args.isdigit():
             BotDB.change_status(chat_id, args, 1)
-            message = f'Запись под номером {args} завершена'
+            message = config.text_task_done.format(args)
         else:
-            message = 'Вы ввели неправильный ID!'
+            message = config.text_wrong_id
         BotDB.update_command(chat_id, '')
     else:
         BotDB.update_command(chat_id, 'done')
-        message = 'Введите ID задачи для завершения'
+        message = config.text_enter_4_done
     return message
 
 
@@ -91,13 +91,13 @@ def delete_todo(chat_id, args):
     if args:
         if args.isdigit():
             BotDB.change_status(chat_id, args, 2)
-            message = f'Запись под номером {args} удалена'
+            message = config.text_task_deleted.format(args)
         else:
-            message = 'Вы ввели неправильный ID!'
+            message = config.text_wrong_id
         BotDB.update_command(chat_id, '')
     else:
         BotDB.update_command(chat_id, 'delete')
-        message = 'Введите ID задачи для удаления'
+        message = config.text_enter_4_delete
     return message
 
 
