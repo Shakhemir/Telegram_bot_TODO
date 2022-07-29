@@ -1,6 +1,5 @@
 import sqlite3
 import threading
-from config import fields
 
 
 class BotDB:
@@ -17,7 +16,7 @@ class BotDB:
 
     def new_user(self, user_id):
         self.sql_execute(f"CREATE TABLE if not exists {self.id(user_id)} (id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-                         f"task STRING ({fields[0][1]}), deadline STRING ({fields[1][1]}), status INTEGER DEFAULT (0))")
+                         f"task STRING (40), deadline STRING (15), status INTEGER DEFAULT (0))")
         if not self.sql_execute(f"SELECT id FROM {self.id(user_id)}").fetchall():
             self.sql_execute(
                 f"INSERT INTO {self.id(user_id)} (id,task, deadline, status) VALUES (0, 'last command', '', 3)")
@@ -25,7 +24,6 @@ class BotDB:
 
     def get_table(self, user_id):
         result = self.sql_execute(f"SELECT * FROM {self.id(user_id)}").fetchall()
-        print(result)
         return result
 
     def update_command(self, user_id, command):

@@ -19,6 +19,9 @@ def command_handler(chat_id, txt):
 
 
 def message_handler(chat_id, txt):
+    for item in config.menu:
+        if txt[1:] .startswith(item):  # превращаем команды вида /done01 в /done 01
+            return command_handler(chat_id, txt[:len(item)+1] + ' ' + txt[len(item)+1:])
     last_command = BotDB.check_command(chat_id).split()
     if last_command:
         index = config.menu.index(last_command[0])
@@ -101,4 +104,4 @@ def delete_todo(chat_id, args):
 def show_todo_list(chat_id, args):
     result = BotDB.get_table(chat_id)
     result = op.form_todo_list(result)
-    return f'```{result}```'
+    return result
