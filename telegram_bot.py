@@ -9,6 +9,7 @@ def telegram_bot():
 
     @bot.message_handler(commands=menu)
     def commands(message):
+
         handler(c.command_handler, message)
 
     @bot.message_handler(content_types='text')

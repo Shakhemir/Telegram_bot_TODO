@@ -1,4 +1,4 @@
-from config import fields, todo_status
+from config import fields, todo_status, add_task_tail
 
 
 def form_todo_list(todo_list):
@@ -16,4 +16,5 @@ def form_todo_list(todo_list):
             if todo[3] == 1:
                 result += f'_Удалить /delete{id}_\n'
             result += '\n'
+    result += add_task_tail
     return result

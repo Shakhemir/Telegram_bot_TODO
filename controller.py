@@ -1,6 +1,7 @@
 import operations as op
 import config
 from database import BotDB
+from logging_todo import add_log
 
 BotDB = BotDB(config.database_file)
 
@@ -15,7 +16,9 @@ def command_handler(chat_id, txt):
     args = ' '.join(args)
     command = command[1:]  # оголяем команду от аргументов и первого слеша /
     index = config.menu.index(command)
-    return func(index)(chat_id, args)
+    ffunc = func(index)
+    add_log(f'{ffunc.__name__}: {chat_id=} {args=}')
+    return ffunc(chat_id, args)
 
 
 def message_handler(chat_id, txt):
@@ -25,12 +28,15 @@ def message_handler(chat_id, txt):
     last_command = BotDB.check_command(chat_id).split()
     if last_command:
         index = config.menu.index(last_command[0])
-        return func(index)(chat_id, txt)
+        ffunc = func(index)
+        add_log(f'{ffunc.__name__}: {chat_id=} {txt=}')
+        return ffunc(chat_id, txt)
     else:
         return config.help_text
 
 
 def send_start(chat_id, args):
+    add_log(f'send start: {chat_id=}')
     BotDB.new_user(chat_id)
     return config.welcome_text + '\n\n' + config.help_text
 

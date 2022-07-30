@@ -14,13 +14,14 @@ help_text = f'Выберите команду из списка:\n' \
             f'/{menu[3]} – завершить задачу\n' \
             f'/{menu[4]} – удалить задачу\n' \
             f'/{menu[5]} – показать список дел'
-show_list_text = f'\n_Показать список дел /{menu[5]}_'
+show_list_tail = f'\n_Показать список дел /{menu[5]}_'
+add_task_tail = f'\n_Добавить новую задачу /{menu[1]}_'
 text_enter_task = 'Введите задачу'
 text_whats_deadline = 'Какой крайний срок?'
-text_OK = f'OK!' + show_list_text
+text_OK = f'OK!' + show_list_tail
 text_wrong_id = 'Вы ввели неправильный ID!'
 text_enter_4_done = 'Введите ID задачи для завершения'
 text_enter_4_edit = 'Введите ID задачи для изменения'
 text_enter_4_delete = 'Введите ID задачи для удаления'
-text_task_done = 'Запись под номером {} завершена' + show_list_text
-text_task_deleted = 'Запись под номером {} удалена' + show_list_text
+text_task_done = 'Запись под номером {} завершена' + show_list_tail
+text_task_deleted = 'Запись под номером {} удалена' + show_list_tail
