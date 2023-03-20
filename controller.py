@@ -7,36 +7,37 @@ BotDB = BotDB(config.database_file)
 
 
 def func(index):
-    func_list = send_start, add_todo, edit_todo, change_status, delete_todo, show_todo_list
+    func_list = send_start, add_todo, edit_todo, change_status, delete_todo, show_todo_list, stop_bot
     return func_list[index]
 
 
-def command_handler(chat_id, txt):
+def command_handler(message, txt):
+    chat_id = message.chat.id
     command, *args = txt.split()
     args = ' '.join(args)
     command = command[1:]  # оголяем команду от аргументов и первого слеша /
     index = config.menu.index(command)
     ffunc = func(index)
-    add_log(f'{ffunc.__name__}: {chat_id=} {args=}')
+    add_log(f'{ffunc.__name__}: {message.chat.username} {chat_id=} {args=}')
     return ffunc(chat_id, args)
 
 
-def message_handler(chat_id, txt):
+def message_handler(message, txt):
+    chat_id = message.chat.id
     for item in config.menu:
-        if txt[1:] .startswith(item):  # превращаем команды вида /done01 в /done 01
-            return command_handler(chat_id, txt[:len(item)+1] + ' ' + txt[len(item)+1:])
+        if txt[1:].startswith(item):  # превращаем команды вида /done01 в /done 01
+            return command_handler(message, txt[:len(item)+1] + ' ' + txt[len(item)+1:])
     last_command = BotDB.check_command(chat_id).split()
     if last_command:
         index = config.menu.index(last_command[0])
         ffunc = func(index)
-        add_log(f'{ffunc.__name__}: {chat_id=} {txt=}')
+        add_log(f'{ffunc.__name__}: {message.chat.username} {chat_id=} {message.chat.username} {txt=}')
         return ffunc(chat_id, txt)
     else:
         return config.help_text
 
 
 def send_start(chat_id, args):
-    add_log(f'send start: {chat_id=}')
     BotDB.new_user(chat_id)
     return config.welcome_text + '\n\n' + config.help_text
 
@@ -111,3 +112,6 @@ def show_todo_list(chat_id, args):
     result = BotDB.get_table(chat_id)
     result = op.form_todo_list(result)
     return result
+
+def stop_bot(chat_id, args):
+    return 'stop'
