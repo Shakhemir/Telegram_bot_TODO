@@ -1,6 +1,5 @@
 import time
 
-# from Token import TOKEN
 import telebot
 from config import menu
 import controller as c
