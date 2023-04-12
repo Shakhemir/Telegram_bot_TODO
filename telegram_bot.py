@@ -1,17 +1,18 @@
 import time
 
-from Token import TOKEN
+# from Token import TOKEN
 import telebot
 from config import menu
 import controller as c
 # import schedule
 # import threading
+import os
 
 is_polling = True
 
 
 def telegram_bot():
-    bot = telebot.TeleBot(TOKEN)
+    bot = telebot.TeleBot(os.getenv('TOKEN'))
     print('Time is', time.strftime("%H:%M:%S", time.localtime()))
     # print('Stop time is', STOP_TIME)
 
